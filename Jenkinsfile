@@ -1,51 +1,24 @@
-
-
-    
-
-        // Additional stages or post-build actions
 pipeline {
-    agent any
-
+    agent any  // Use any available agent node by default
     stages {
-    
-
-        stage('Build Docker Image') {
+        stage('Build on Linux') {
+            agent {
+                label 'linux'  // Allocate a node with the label 'linux'
+            }
             steps {
-                script {
-                    def dockerImage = 'jenkins-custom' // Replace with your desired image name
-                    def dockerFile = 'Dockerfile' // Path to your Dockerfile for Jenkins
-
-                    // Build the Docker image
-                    sh "docker build -t $dockerImage -f $dockerFile ."
-                }
+                sh 'echo "Building on Linux"'
+                // Other build steps for Linux
             }
         }
-
-        stage('Run Jenkins Container') {
-            steps {
-                script {
-                    def dockerContainerName = 'jenkins-container' // Replace with your desired container name
-                    def jenkinsPort = '8080:8080' // Port mapping (hostPort:containerPort)
-
-                    // Run the Jenkins container from the built image
-                    sh "docker run -d --name $dockerContainerName -p $jenkinsPort $dockerImage"
-                }
+        
+        stage('Build on Windows') {
+            agent {
+                label 'windows'  // Allocate a node with the label 'windows'
             }
-        }
-
-        // Additional stages or post-build actions
-    }
-
-    post {
-        success {
-            // Actions to perform when the pipeline succeeds
-            echo 'Docker image build and Jenkins container started successfully!'
-        }
-
-        failure {
-            // Actions to perform when the pipeline fails
-            echo 'Docker image build or Jenkins container startup failed! Sending notifications...'
-            // Add steps for sending notifications or cleanup here
+            steps {
+                bat 'echo "Building on Windows"'
+                // Other build steps for Windows
+            }
         }
     }
 }
