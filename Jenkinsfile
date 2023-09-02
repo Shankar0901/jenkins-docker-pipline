@@ -15,7 +15,7 @@ pipeline {
                     branches: [[name: 'main']], // Specify the branch you want to build
                     userRemoteConfigs: [[
                         url: 'https://github.com/Shankar0901/jenkins-docker-pipline', // Replace with your Git repository URL
-                        credentialsId: '134193089' // Replace with the ID of your Jenkins Git credentials
+                        credentialsId: 'ab6804e4-e900-4138-a922-a2dcf5ad76d7' // Replace with the ID of your Jenkins Git credentials
                     ]]
                 ])
             }
